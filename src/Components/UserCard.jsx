@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from 'prop-types';
 
 function UserCard({
@@ -10,9 +10,6 @@ function UserCard({
 
 }) {
 
-  const [avtr, setAvtr] = useState();
-  const [avtrLoading, setAvtrLoading] = useState(true);
-  const [avtrError, setAvtrError] = useState(null);
   const [heartActive, setHeartActive] = useState(false);
   const [displayCard, setDisplayCard] = useState(true);
   const [showEditBox, setShowEditBox] = useState(false);
@@ -24,41 +21,12 @@ function UserCard({
   const [tempUpdatedPhone, setTempUpdatedPhone] = useState(phone);
   const [tempUpdatedWebsite, setTempUpdatedWebsite] = useState(website);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const avtr_url = `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${username}`
-      // const avtr_url = `https://avatars.dicebear.com/v2/avataaars/${username}.svg?options[mood][]=happy`;
-
-      try {
-        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-        await delay(1000);
-        const response = await fetch(avtr_url, { method: 'GET', headers: { 'Content-Type': 'application/json' } }); // Fetch the data
-        // console.log(response);
-
-        if (!response.ok) setAvtr(response.url);
-
-        setAvtr(response.url);
-        setAvtrLoading(false);
-
-      } catch (err) {
-        setAvtr(err.message)
-        // setAvtrError(err.message);
-        setAvtrLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (avtrLoading) return <p>Loading...</p>;
-  if (avtrError) return <p>Error: {avtrError}</p>;
-
   showEditBox ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto'
 
   return (
     <div className={`w-full md:w-[30%] xl:w-[23%] 2xl:w-[22rem] rounded-[1px] flex flex-col border-1 border-gray-200 ${displayCard ? '' : 'hidden'}`}>
       <div className="thumbnail flex justify-center max-h-52 bg-neutral-100">
-        <img src={avtr} alt="" className="w-52" />
+        <img src={`https://avatars.dicebear.com/v2/avataaars/${username}.svg?options[mood][]=happy`} alt="" className="w-52" />
       </div>
       <div className="flex flex-col gap-y-1 px-6 py-5">
         <h3 className="font-medium">{updatedDetails.name}</h3>
